@@ -1,0 +1,44 @@
+name: Auto update
+
+on: 
+    workflow_dispatch:
+    schedule: 
+        - cron: '0 0 * * *'  # Run daily
+
+jobs: 
+    build: 
+        runs-on: ubuntu-latest
+
+        steps: 
+            - name: Checkout Repository
+              uses: actions/checkout@v4
+            - name: Set up Python
+              uses: actions/setup-python@v4
+              with: 
+                  python-version: 3.12
+
+            - name: Git config
+              run: |
+                  git config --local user.email "actions@github.com"
+                  git config --local user.name "GitHub Actions"
+
+            - name: Install Dependencies
+              run: |
+                  cd auto-update
+                  pip install -r requirements.txt
+
+            - name: Run auto update script
+              run: |
+                  cd auto-update
+                  python main.py
+
+            - name: Commit and push changes
+              id: github-push
+              run: |
+                  git add .
+                  git diff-index --quiet HEAD || git commit -m "Auto-update to latest version"
+                  git push
+
+            - name: Failed to push
+              if: ${{ failure() && steps.github-push.conclusion == 'failure' }}
+              run: echo Application could not be updated or is already at the latest version.
