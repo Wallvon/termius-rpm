@@ -11,7 +11,7 @@ cd termius-rpm
 
 2. Install the build dependencies
 ```bash
-sudo dnf install -y rpmdevtools rpm-build rpm-devel rpmlint bsdtar
+sudo dnf install -y rpmdevtools rpm-build rpm-devel rpmlint bsdtar libXScrnSaver libappindicator-gtk3
 ```
 
 3. Set up development build tree, download Termius deb to it and build the package.
