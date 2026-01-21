@@ -1,5 +1,5 @@
 %global pkgname termius-app
-%global pkgver 9.36.1
+%global pkgver 9.36.2
 
 Summary: Desktop SSH Client
 Name: %{pkgname}
